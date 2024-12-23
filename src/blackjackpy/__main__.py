@@ -16,11 +16,12 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
+import datetime
 import logging
+import os
 import sys
 
-from .exceptions.application_error import ApplicationError
-from .game import Game
+from .game import Blackjack
 
 
 def main() -> int:
@@ -31,23 +32,28 @@ def main() -> int:
     """
     try:
         # entry-point for application
-        Game.init()
-
+        Blackjack.init()
+        Blackjack.run()
 
     except KeyboardInterrupt:
         logging.info("User request to shut down application received")
 
-    except ApplicationError as e:
-        return e.error_code
-
     except Exception as e:      # pylint: disable=broad-exception-caught
         logging.error(str(e))
         return -1
+
     finally:
-        Game.close()
-        
+        Blackjack.shutdown()
+
     return 0
 
 
 if __name__ == "__main__":
+    # setup logging
+    if not os.path.exists("logs"):
+        os.mkdir("logs")
+    log_path: str = datetime.datetime.now().strftime('logs/blackjackpy_%Y-%m-%d_%H-%M-%S.log')
+    logging.basicConfig(filename=log_path, level=logging.DEBUG)
+
+    # run main
     sys.exit(main())

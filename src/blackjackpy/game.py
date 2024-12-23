@@ -16,7 +16,10 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
+import logging
 import pygame
+
+from .spritesheet import Spritesheet
 
 
 class Game:
@@ -27,10 +30,12 @@ class Game:
     def run(self) -> None:
         """Run the game.
         """
+        deck: Spritesheet = Spritesheet("data/sprites/playingCardBacks.xml")
+        card = deck.get("cardBack_red3")
+
         screen = pygame.display.set_mode((1280, 720))
         clock = pygame.time.Clock()
         running = True
-
         while running:
             # poll for events
             # pygame.QUIT event means the user clicked X to close your window
@@ -39,25 +44,29 @@ class Game:
                     running = False
 
             # fill the screen with a color to wipe away anything from last frame
-            screen.fill("purple")
+            screen.fill("#35654d")
 
             # RENDER YOUR GAME HERE
+            screen.blit(card, (0, 0))
 
             # flip() the display to put your work on screen
             pygame.display.flip()
 
             clock.tick(60)  # limits FPS to 60
 
-
-    @staticmethod
-    def init() -> None:
+    def init(self) -> None:
         """Initialize the game.
         """
+        logging.info("Starting initialization...")
         pygame.init()
+        logging.info("Initialization complete!")
 
-
-    @staticmethod
-    def close() -> None:
-        """Safely close the game.
+    def shutdown(self) -> None:
+        """Safely shutdown the game.
         """
+        logging.info("Starting shutdown...")
         pygame.quit()
+        logging.info("Shutdown complete!")
+
+
+Blackjack: Game = Game()
