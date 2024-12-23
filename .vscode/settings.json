@@ -1,0 +1,24 @@
+{
+    "[python]":{
+        "editor.codeActionsOnSave": {
+            "source.fixAll": "always",
+        },
+        "editor.defaultFormatter": "ms-python.pylint",
+        "editor.formatOnType": true,
+        "editor.rulers": [ 80, 120 ],
+    },
+    "python.autoComplete.extraPaths": ["__pypackages__/3.13/lib"],
+    "python.analysis.extraPaths": ["__pypackages__/3.13/lib"],
+    "pylint.args": [
+        "--generated-members", "pygame.*",
+    ],
+    "files.exclude": {
+        "**/.git": true,
+        "**/.svn": true,
+        "**/.hg": true,
+        "**/CVS": true,
+        "**/.DS_Store": true,
+        "**/Thumbs.db": true,
+        "**/__pycache__": true,
+    }
+}

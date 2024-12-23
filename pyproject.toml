@@ -1,0 +1,29 @@
+[project]
+name = "blackjack_py"
+description = "Default template for PDM package"
+authors = [
+    {name = "Ramon Meza", email = "ramon_meza@live.com"},
+]
+readme = "README.md"
+license = {text = "GNUv3"}
+
+requires-python = "==3.13.*"
+dynamic = ["version"]
+
+dependencies = ["pygame>=2.6.1"]
+
+[project.optional-dependencies]
+dev = [
+    "pylint>=3.3.2",
+]
+
+[tool.pdm]
+distribution = false
+
+[tool.pdm.version]
+source = "file"
+path = "src/blackjackpy/__init__.py"
+
+[build-system]
+requires = ["pdm-backend"]
+build-backend = "pdm.backend"
