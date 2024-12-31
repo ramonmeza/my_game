@@ -1,0 +1,28 @@
+name: CI
+on: [push]
+jobs:
+  setup:
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup PDM
+        uses: pdm-project/setup-pdm@v4
+        with:
+          python-version: 3.13
+          cache: true
+
+      - name: Install dependencies
+        run: pdm install
+
+  format:
+    needs: setup
+    steps:
+      - name: Run formatter
+        run: pdm run format
+        
+  lint:
+    needs: setup
+    steps:
+      - name: Run linter
+        run: pdm run lint

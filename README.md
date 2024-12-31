@@ -1,6 +1,6 @@
-# BlackjackPy
+# MyGame
 
-The classic card game Blackjack, implemented in Python.
+My journey toward learning game development using Python.
 
 
 

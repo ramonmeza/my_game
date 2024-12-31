@@ -1,5 +1,5 @@
 """
-The classic card game Blackjack, implemented in Python. 
+My journey toward learning game development using Python. 
 Copyright (C) 2024  Ramon Meza
 
 This program is free software: you can redistribute it and/or modify
@@ -18,7 +18,61 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 import pygame
 
+from typing import Tuple
 from .events import GAMEPLAY_PAUSE
+
+
+class GameObject(pygame.sprite.Sprite):
+    image: pygame.Surface
+    rect: pygame.Rect
+
+    def __init__(self, sprite: pygame.Surface):
+        super().__init__()
+        self.image = sprite
+        self.rect = self.image.get_rect()
+
+    @property
+    def position(self) -> Tuple[int, int]:
+        return (self.rect.x, self.rect.y)
+
+    @position.setter
+    def position(self, value: Tuple[int, int]) -> None:
+        self.rect = pygame.Rect(value, self.rect.size)
+
+
+class Ball(GameObject):
+    speed: float
+    velocity: Tuple[float, float]
+
+    def __init__(self):
+        surf = pygame.Surface((10, 10))
+        pygame.draw.circle(surf, "red", (5, 5), 5)
+        super().__init__(surf)
+
+        self.speed = 1000
+        self.velocity = (self.speed, self.speed)
+
+    def update(self, delta_time: float) -> None:
+        self.position = (self.position[0] + (self.velocity[0] * delta_time),
+                        (self.position[1] + (self.velocity[1] * delta_time)))
+        
+        bounds = pygame.display.get_window_size()
+
+        if self.position[0] < 0:
+            self.velocity = (-self.velocity[0], self.velocity[1])
+            print("bounce off left wall")
+            
+        if self.position[0] > bounds[0]:
+            self.velocity = (-self.velocity[0], self.velocity[1])
+            print("bounce off right wall")
+
+        if self.position[1] < 0:
+            self.velocity = (self.velocity[0], -self.velocity[1])
+            print("bounce off top wall")
+            
+        if self.position[1] > bounds[1]:
+            self.velocity = (self.velocity[0], -self.velocity[1])
+            print("bounce off bottom wall")
 
 
 class Gameplay(pygame.sprite.Group):
@@ -26,8 +80,10 @@ class Gameplay(pygame.sprite.Group):
 
     is_paused: bool
 
-    def __init__(self, *sprites):
-        super().__init__(*sprites)
+    def __init__(self):
+        super().__init__([
+            Ball()
+        ])
         self.is_paused = False
 
     def update(self, *args, **kwargs) -> None:

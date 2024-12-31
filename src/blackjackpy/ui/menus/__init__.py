@@ -1,5 +1,5 @@
 """
-The classic card game Blackjack, implemented in Python. 
+My journey toward learning game development using Python. 
 Copyright (C) 2024  Ramon Meza
 
 This program is free software: you can redistribute it and/or modify

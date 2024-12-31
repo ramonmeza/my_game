@@ -1,6 +1,6 @@
 [project]
-name = "blackjack_py"
-description = "Default template for PDM package"
+name = "my_game"
+description = "My journey to learning pygame."
 authors = [
     {name = "Ramon Meza", email = "ramon_meza@live.com"},
 ]
@@ -22,7 +22,7 @@ dev = [
 
 [tool.pdm.scripts]
 build-docs = "sphinx-build -b html docs docs/html"
-game = "python -m src.blackjackpy"
+game = "python -m src.gamedev"
 format = "black ."
 lint = "pylint ."
 
@@ -31,7 +31,7 @@ distribution = false
 
 [tool.pdm.version]
 source = "file"
-path = "src/blackjackpy/__init__.py"
+path = "src//__init__.py"
 
 [build-system]
 requires = ["pdm-backend"]

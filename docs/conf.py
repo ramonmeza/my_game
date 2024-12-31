@@ -1,5 +1,5 @@
 """
-The classic card game Blackjack, implemented in Python. 
+My journey toward learning game development using Python. 
 Copyright (C) 2024  Ramon Meza
 
 This program is free software: you can redistribute it and/or modify
@@ -20,7 +20,7 @@ import sys
 
 sys.path.insert(0, "../src")
 
-project = "BlackjackPy"
+project = "MyGame"
 copyright = "2024, Ramon Meza"
 author = "Ramon Meza"
 
@@ -34,4 +34,4 @@ exclude_patterns = []
 html_theme = "alabaster"
 html_static_path = ["_static"]
 
-autoapi_dirs = ["../src/blackjackpy"]
+autoapi_dirs = ["../src/my_game"]

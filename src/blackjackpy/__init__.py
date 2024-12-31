@@ -1,5 +1,5 @@
 """
-The classic card game Blackjack, implemented in Python. 
+My journey toward learning game development using Python. 
 Copyright (C) 2024  Ramon Meza
 
 This program is free software: you can redistribute it and/or modify
@@ -16,6 +16,6 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-__title__ = "BlackjackPy"
+__title__ = "MyGame"
 __version__ = "0.1.0"
 __window_caption__ = f"{__title__} v{__version__}"

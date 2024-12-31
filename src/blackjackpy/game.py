@@ -1,5 +1,5 @@
 """
-The classic card game Blackjack, implemented in Python. 
+My journey toward learning game development using Python. 
 Copyright (C) 2024  Ramon Meza
 
 This program is free software: you can redistribute it and/or modify
@@ -81,7 +81,7 @@ class Game:
         """Run the game."""
         self.is_running = True
         while self.is_running:
-            delta_time: float = self.clock.tick(self.max_fps)
+            delta_time: float = self.clock.tick(self.max_fps) / 1000.0
             self.handle_events()
             self.update(delta_time)
             self.render()
