@@ -22,6 +22,7 @@ dev = [
 
 [tool.pdm.scripts]
 build-docs = "sphinx-build -b html docs docs/html"
+game = "python -m src.blackjackpy"
 format = "black ."
 lint = "pylint ."
 
