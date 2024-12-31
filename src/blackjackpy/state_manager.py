@@ -20,26 +20,28 @@ from typing import Dict
 
 import pygame
 
+from .game_states import GameStates
+
 
 class StateManager:
     """Manages states and transitioning between them. Provides an interface to
     receive the current and previous states.
     """
 
-    current_state: str
-    previous_state: str
-    states: Dict[str, pygame.sprite.Group]
+    current_state: GameStates | None
+    previous_state: GameStates | None
+    states: Dict[GameStates, pygame.sprite.Group]
 
     def __init__(self) -> None:
-        self.current_state = ""
-        self.previous_state = ""
+        self.current_state = None
+        self.previous_state = None
         self.states = {}
 
-    def add(self, key: str, state: pygame.sprite.Group) -> None:
+    def add(self, key: GameStates, state: pygame.sprite.Group) -> None:
         """Add a state to the state machine.
 
         Args:
-            key (str): String name ID for the state.
+            key (GameStates): GameState ID for the state.
             state (pygame.sprite.Group): The actual state object. Drawn when
             it's the current state.
         """
@@ -50,16 +52,19 @@ class StateManager:
 
         self.states[key] = state
 
-    def change_state(self, next_state_key: str) -> None:
+    def change_state(self, next_state_key: GameStates) -> None:
         """Change the state to the given state with matching `next_state_key`.
 
         Args:
-            next_state_key (str): String name ID for the state.
+            next_state_key (GameStates): GameState ID for the state.
         """
         if not self.current_state:
             return
         self.previous_state = self.current_state
         self.current_state = next_state_key
+
+    def get_state(self) -> GameStates:
+        return self.current_state
 
     def go_back(self) -> None:
         """Transition to the previous state."""

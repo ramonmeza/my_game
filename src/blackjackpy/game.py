@@ -28,6 +28,8 @@ from .events import (
     OPTIONS_MENU_TOGGLE_FULLSCREEN,
     OPTIONS_MENU_GO_BACK,
 )
+from .gameplay import Gameplay
+from .game_states import GameStates
 from .ui.menus import MainMenu, OptionsMenu
 
 
@@ -61,11 +63,11 @@ class Game:
         self.font_manager.add("data/fonts/Rijusans-Regular.ttf")
 
         # load menus
-        self.state_manager.add("main_menu", MainMenu(font=self.font_manager.get()))
+        self.state_manager.add(GameStates.MAIN_MENU, MainMenu(font=self.font_manager.get()))
         self.state_manager.add(
-            "options_menu", OptionsMenu(font=self.font_manager.get())
+            GameStates.OPTIONS_MENU, OptionsMenu(font=self.font_manager.get())
         )
-
+        self.state_manager.add(GameStates.GAMEPLAY, Gameplay())
     def run(self) -> None:
         """Run the game."""
         self.is_running = True
@@ -83,9 +85,10 @@ class Game:
         """
         if event.type == MAIN_MENU_PLAY:
             self.max_fps = 0
+            self.state_manager.change_state(GameStates.GAMEPLAY)
 
         elif event.type == MAIN_MENU_OPTIONS:
-            self.state_manager.change_state("options_menu")
+            self.state_manager.change_state(GameStates.OPTIONS_MENU)
             self.max_fps = 60
 
         elif event.type == OPTIONS_MENU_TOGGLE_FULLSCREEN:
