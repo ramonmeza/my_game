@@ -29,7 +29,7 @@ class Ball(GameObject):
     speed: float
     velocity: Tuple[float, float]
 
-    def __init__(self, sprite: pygame.Surface | None = None):
+    def __init__(self, sprite: pygame.Surface | None = None) -> None:
         if sprite is None:
             size = (24, 24)
             half_size = (12, 12)
@@ -37,6 +37,8 @@ class Ball(GameObject):
             pygame.draw.circle(sprite, "red", half_size, half_size[0])
 
         super().__init__(sprite)
+
+        self.scale_by(0.5)
 
         self.speed = 400
         self.velocity = (self.speed, self.speed)
@@ -54,7 +56,7 @@ class Ball(GameObject):
             self.velocity = (-self.velocity[0], self.velocity[1])
             self.position = (self.position[0] + 1, self.position[1])
 
-        if self.position[0] > bounds[0] - self.size[0]:
+        if self.position[0] > bounds[0] - self.rect.size[0]:
             self.velocity = (-self.velocity[0], self.velocity[1])
             self.position = (self.position[0] - 1, self.position[1])
 
@@ -62,6 +64,6 @@ class Ball(GameObject):
             self.velocity = (self.velocity[0], -self.velocity[1])
             self.position = (self.position[0], self.position[1] + 1)
 
-        if self.position[1] > bounds[1] - self.size[1]:
+        if self.position[1] > bounds[1] - self.rect.size[1]:
             self.velocity = (self.velocity[0], -self.velocity[1])
             self.position = (self.position[0], self.position[1] - 1)
