@@ -25,3 +25,4 @@ class GameStates(StrEnum):
     MAIN_MENU: str = "main_menu"
     OPTIONS_MENU: str = "options_menu"
     GAMEPLAY: str = "gameplay"
+    PAUSE_MENU: str = "pause_menu"

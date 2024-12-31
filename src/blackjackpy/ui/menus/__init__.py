@@ -18,3 +18,4 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 
 from .main_menu import MainMenu
 from .options_menu import OptionsMenu
+from .pause_menu import PauseMenu

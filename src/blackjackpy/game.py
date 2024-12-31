@@ -23,14 +23,21 @@ from .font_manager import FontManager
 from .state_manager import StateManager
 
 from .events import (
-    MAIN_MENU_PLAY,
+    GAMEPLAY_PAUSE,
     MAIN_MENU_OPTIONS,
-    OPTIONS_MENU_TOGGLE_FULLSCREEN,
+    MAIN_MENU_PLAY,
     OPTIONS_MENU_GO_BACK,
+    OPTIONS_MENU_TOGGLE_FULLSCREEN,
+    PAUSE_MENU_RESUME,
+    PAUSE_MENU_GOTO_MAIN_MENU
 )
 from .gameplay import Gameplay
 from .game_states import GameStates
-from .ui.menus import MainMenu, OptionsMenu
+from .ui.menus import (
+    MainMenu,
+    OptionsMenu,
+    PauseMenu
+)
 
 
 class Game:
@@ -68,6 +75,7 @@ class Game:
             GameStates.OPTIONS_MENU, OptionsMenu(font=self.font_manager.get())
         )
         self.state_manager.add(GameStates.GAMEPLAY, Gameplay())
+        self.state_manager.add(GameStates.PAUSE_MENU, PauseMenu(font=self.font_manager.get()))
     def run(self) -> None:
         """Run the game."""
         self.is_running = True
@@ -98,6 +106,18 @@ class Game:
         elif event.type == OPTIONS_MENU_GO_BACK:
             self.max_fps = 60
             self.state_manager.go_back()
+
+        elif event.type == GAMEPLAY_PAUSE:
+            self.max_fps = 60
+            self.state_manager.change_state(GameStates.PAUSE_MENU)
+
+        elif event.type == PAUSE_MENU_RESUME:
+            self.max_fps = 0
+            self.state_manager.change_state(GameStates.GAMEPLAY)
+
+        elif event.type == PAUSE_MENU_GOTO_MAIN_MENU:
+            self.max_fps = 60
+            self.state_manager.change_state(GameStates.MAIN_MENU)
 
     def handle_events(self) -> None:
         """Handle system and game events."""

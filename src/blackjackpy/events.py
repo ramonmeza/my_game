@@ -24,3 +24,8 @@ MAIN_MENU_OPTIONS: int = pygame.event.custom_type()
 
 OPTIONS_MENU_TOGGLE_FULLSCREEN: int = pygame.event.custom_type()
 OPTIONS_MENU_GO_BACK: int = pygame.event.custom_type()
+
+GAMEPLAY_PAUSE: int = pygame.event.custom_type()
+
+PAUSE_MENU_RESUME: int = pygame.event.custom_type()
+PAUSE_MENU_GOTO_MAIN_MENU: int = pygame.event.custom_type()
