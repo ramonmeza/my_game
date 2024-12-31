@@ -1,6 +1,6 @@
 [MASTER]
 # List of directories and files to ignore (absolute or relative paths).
-ignore=.venv
+ignore=.venv, data, docs
 
 # List of directories whose subdirectories should be ignored (no recursion).
 ignore-patterns=

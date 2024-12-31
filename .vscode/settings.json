@@ -9,10 +9,7 @@
     },
     "python.autoComplete.extraPaths": ["__pypackages__/3.13/lib"],
     "python.analysis.extraPaths": ["__pypackages__/3.13/lib"],
-    "pylint.args": [
-        "--generated-members=pygame.*",
-        "--extension-pkg-whitelist=pygame"
-    ],
+    "pylint.args": ["."],
     "files.exclude": {
         "**/.git": true,
         "**/.svn": true,
