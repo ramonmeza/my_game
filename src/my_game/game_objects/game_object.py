@@ -45,3 +45,17 @@ class GameObject(pygame.sprite.Sprite):
             value (Tuple[int, int]): New position.
         """
         self.rect = pygame.Rect(value, self.rect.size)
+
+    @property
+    def size(self) -> Tuple[int, int]:
+        """Get the GameObject's size."""
+        return self.rect.size
+
+    @size.setter
+    def size(self, size: Tuple[int, int]) -> None:
+        """Set the GameObject's size.
+
+        Args:
+            value (Tuple[int, int]): New size.
+        """
+        self.rect = pygame.Rect((self.rect.x, self.rect.y), size)

@@ -1,4 +1,4 @@
-<TextureAtlas imagePath="playingCards.png">
+<TextureAtlas imagePath="../textures/cards/playingCards.png">
 	<SubTexture name="cardClubs10" x="560" y="760" width="140" height="190"/>
 	<SubTexture name="cardClubs2" x="280" y="1140" width="140" height="190"/>
 	<SubTexture name="cardClubs3" x="700" y="190" width="140" height="190"/>

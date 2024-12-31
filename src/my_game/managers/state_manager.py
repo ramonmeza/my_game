@@ -20,7 +20,7 @@ from typing import Dict
 
 import pygame
 
-from .game_states import GameStates
+from ..game_states import GameStates
 
 
 class StateManager:

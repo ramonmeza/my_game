@@ -19,8 +19,11 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import pygame
 
 from . import __window_caption__
-from .font_manager import FontManager
-from .state_manager import StateManager
+from .managers import (
+    AssetManager,
+    FontManager,
+    StateManager,
+)
 
 from .events import (
     GAMEPLAY_PAUSE,
@@ -48,6 +51,7 @@ class Game:
     is_running: bool
     clock: pygame.time.Clock
     window: pygame.Surface
+    asset_manager: AssetManager
     font_manager: FontManager
     state_manager: StateManager
     max_fps: int
@@ -55,13 +59,20 @@ class Game:
     def init(self) -> None:
         """Initialize the main systems."""
         pygame.init()
-        self.max_fps = 60
         self.is_running = False
+
+        # initialize window
+        self.max_fps = MAX_FPS_IN_MENU
         self.clock = pygame.time.Clock()
         self.window = pygame.display.set_mode((800, 600))
         pygame.display.set_caption(__window_caption__)
+
+        # initialize managers
+        self.asset_manager = AssetManager()
         self.font_manager = FontManager()
         self.state_manager = StateManager()
+
+        # intialize game components
         self.init_game()
 
     def init_game(self) -> None:
@@ -69,14 +80,17 @@ class Game:
         # load fonts
         self.font_manager.add("data/fonts/Rijusans-Regular.ttf")
 
-        # load menus
+        # load assets
+        self.asset_manager.load_spritesheet("data/spritesheets/playingCards.xml")
+
+        # add states to state machine
         self.state_manager.add(
             GameStates.MAIN_MENU, MainMenu(font=self.font_manager.get())
         )
         self.state_manager.add(
             GameStates.OPTIONS_MENU, OptionsMenu(font=self.font_manager.get())
         )
-        self.state_manager.add(GameStates.GAMEPLAY, Gameplay())
+        self.state_manager.add(GameStates.GAMEPLAY, Gameplay(self.asset_manager))
         self.state_manager.add(
             GameStates.PAUSE_MENU, PauseMenu(font=self.font_manager.get())
         )
