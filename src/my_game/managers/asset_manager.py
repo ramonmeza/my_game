@@ -25,12 +25,28 @@ import pygame
 
 
 class AssetManager:
+    """Manages assets such as texture and sounds."""
+
     textures: Dict[str, pygame.Surface]
 
     def __init__(self) -> None:
         self.textures = {}
 
     def load_spritesheet(self, path: str) -> None:
+        """Load textures from an XML spritesheet.
+
+        Follows Kenney's assets spritesheet format:
+
+        ```xml
+        <TextureAtlas imagePath="./relative/path/to/texture.png">
+            <SubTexture name="textureID" x="0" y="0" width="100" height="200" />
+            ...
+        </TextureAtlas>
+        ```
+
+        Args:
+            path (str): Path to the XML spritesheet.
+        """
         xml = ElementTree.parse(path)
         root = xml.getroot()
 
@@ -49,10 +65,21 @@ class AssetManager:
             self.add_texture(name, sprite_surf)
 
     def add_texture(self, name: str, surface: pygame.Surface) -> None:
+        """Add a texture to the AssetManager.
+
+        Args:
+            name (str): Name of the texture. Used to reference the texture.
+            surface (pygame.Surface): Surface containing the texture.
+        """
         self.textures[name] = surface
 
     def get_texture(self, name: str) -> pygame.Surface:
-        if name not in self.textures:
-            return None
+        """Get a loaded texture by name.
 
+        Args:
+            name (str): Name of the texture.
+
+        Returns:
+            pygame.Surface: The requested texture surface.
+        """
         return self.textures[name]
