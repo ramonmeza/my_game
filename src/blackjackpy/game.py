@@ -41,13 +41,15 @@ class Game:
     window: pygame.Surface
     font_manager: FontManager
     state_manager: StateManager
+    max_fps: int
 
     def init(self) -> None:
         """Initialize the main systems."""
         pygame.init()
+        self.max_fps = 60
         self.is_running = False
         self.clock = pygame.time.Clock()
-        self.window = pygame.display.set_mode((1280, 720))
+        self.window = pygame.display.set_mode((800, 600))
         pygame.display.set_caption(__window_caption__)
         self.font_manager = FontManager()
         self.state_manager = StateManager()
@@ -68,7 +70,7 @@ class Game:
         """Run the game."""
         self.is_running = True
         while self.is_running:
-            delta_time: float = self.clock.tick()
+            delta_time: float = self.clock.tick(self.max_fps)
             self.handle_events()
             self.update(delta_time)
             self.render()
@@ -80,18 +82,18 @@ class Game:
             event (pygame.event.Event): The custom event.
         """
         if event.type == MAIN_MENU_PLAY:
-            print("play")
+            self.max_fps = 0
 
         elif event.type == MAIN_MENU_OPTIONS:
-            print("goto options")
             self.state_manager.change_state("options_menu")
+            self.max_fps = 60
 
         elif event.type == OPTIONS_MENU_TOGGLE_FULLSCREEN:
-            print("toggle fullscreen")
+            self.max_fps = 60
             pygame.display.toggle_fullscreen()
 
         elif event.type == OPTIONS_MENU_GO_BACK:
-            print("go back")
+            self.max_fps = 60
             self.state_manager.go_back()
 
     def handle_events(self) -> None:
