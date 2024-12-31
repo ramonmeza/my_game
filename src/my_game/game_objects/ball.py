@@ -30,15 +30,16 @@ class Ball(GameObject):
     velocity: Tuple[float, float]
 
     def __init__(self, sprite: pygame.Surface | None = None) -> None:
+        super().__init__()
+
         if sprite is None:
             size = (24, 24)
             half_size = (12, 12)
             sprite = pygame.Surface(size)
             pygame.draw.circle(sprite, "red", half_size, half_size[0])
 
-        super().__init__(sprite)
-
-        self.scale_by(0.5)
+        self.image = pygame.transform.scale_by(sprite, 0.5)
+        self.rect = self.image.get_rect()
 
         self.speed = 400
         self.velocity = (self.speed, self.speed)

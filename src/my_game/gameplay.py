@@ -19,7 +19,7 @@ along with this program.  If not, see <https://www.gnu.org/licenses/>.
 import pygame
 
 from .events import GAMEPLAY_PAUSE
-from .game_objects import Card
+from .game_objects import Ball, Card
 from .managers import AssetManager
 
 
@@ -29,10 +29,11 @@ class Gameplay(pygame.sprite.Group):
     def __init__(self, asset_manager: AssetManager):
         super().__init__(
             [
+                Ball(asset_manager.get_texture("cardSpades10")),
                 Card(
                     asset_manager.get_texture("cardSpadesA"),
                     asset_manager.get_texture("cardBack_red5"),
-                )
+                ),
             ]
         )
 
