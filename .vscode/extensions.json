@@ -1,0 +1,9 @@
+{
+    "recommendations": [
+        "njpwerner.autodocstring",
+        "ms-python.python",
+        "ms-python.pylint",
+        "ms-python.debugpy",
+        "ms-python.black-formatter"
+    ]
+}
