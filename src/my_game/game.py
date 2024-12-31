@@ -82,6 +82,7 @@ class Game:
 
         # load assets
         self.asset_manager.load_spritesheet("data/spritesheets/playingCards.xml")
+        self.asset_manager.load_spritesheet("data/spritesheets/playingCardBacks.xml")
 
         # add states to state machine
         self.state_manager.add(

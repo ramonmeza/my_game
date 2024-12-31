@@ -27,20 +27,8 @@ class GameObject(pygame.sprite.Sprite):
     image: pygame.Surface
     rect: pygame.Rect
 
-    def __init__(self, sprite: pygame.Surface):
+    def __init__(self) -> None:
         super().__init__()
-        self.image = sprite
-        self.rect = self.image.get_rect()
-
-    def scale_by(self, factor: float) -> None:
-        """Scale by a factor.
-
-        Args:
-            factor (float): The factor to scale by. Can pass multiple axes
-            through a sequence.
-        """
-        self.image = pygame.transform.scale_by(self.image, factor)
-        self.rect = self.image.get_rect()
 
     @property
     def position(self) -> Tuple[int, int]:
