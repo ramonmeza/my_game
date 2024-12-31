@@ -36,6 +36,10 @@ from .game_states import GameStates
 from .ui.menus import MainMenu, OptionsMenu, PauseMenu
 
 
+MAX_FPS: int = 250
+MAX_FPS_IN_MENU: int = 60
+
+
 class Game:
     """Represents the game. Initializes the main window and controls the main
     game loop.
@@ -81,7 +85,7 @@ class Game:
         """Run the game."""
         self.is_running = True
         while self.is_running:
-            delta_time: float = self.clock.tick(self.max_fps) / 1000.0
+            delta_time: float = self.clock.tick_busy_loop(self.max_fps) / 1000.0
             self.handle_events()
             self.update(delta_time)
             self.render()
@@ -93,31 +97,31 @@ class Game:
             event (pygame.event.Event): The custom event.
         """
         if event.type == MAIN_MENU_PLAY:
-            self.max_fps = 0
+            self.max_fps = MAX_FPS
             self.state_manager.change_state(GameStates.GAMEPLAY)
 
         elif event.type == MAIN_MENU_OPTIONS:
             self.state_manager.change_state(GameStates.OPTIONS_MENU)
-            self.max_fps = 60
+            self.max_fps = MAX_FPS_IN_MENU
 
         elif event.type == OPTIONS_MENU_TOGGLE_FULLSCREEN:
-            self.max_fps = 60
+            self.max_fps = MAX_FPS_IN_MENU
             pygame.display.toggle_fullscreen()
 
         elif event.type == OPTIONS_MENU_GO_BACK:
-            self.max_fps = 60
+            self.max_fps = MAX_FPS_IN_MENU
             self.state_manager.go_back()
 
         elif event.type == GAMEPLAY_PAUSE:
-            self.max_fps = 60
+            self.max_fps = MAX_FPS_IN_MENU
             self.state_manager.change_state(GameStates.PAUSE_MENU)
 
         elif event.type == PAUSE_MENU_RESUME:
-            self.max_fps = 0
+            self.max_fps = MAX_FPS
             self.state_manager.change_state(GameStates.GAMEPLAY)
 
         elif event.type == PAUSE_MENU_GOTO_MAIN_MENU:
-            self.max_fps = 60
+            self.max_fps = MAX_FPS_IN_MENU
             self.state_manager.change_state(GameStates.MAIN_MENU)
 
     def handle_events(self) -> None:

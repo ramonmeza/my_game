@@ -22,7 +22,7 @@ dev = [
 
 [tool.pdm.scripts]
 build-docs = "sphinx-build -b html docs docs/html"
-game = "python -m src.gamedev"
+game = "python -m src.my_game"
 format = "black ."
 lint = "pylint ."
 

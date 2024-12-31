@@ -16,24 +16,4 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-import pygame
-
-from .events import GAMEPLAY_PAUSE
-from .game_objects import Ball
-
-
-class Gameplay(pygame.sprite.Group):
-    """Contains all gameplay related functionality."""
-
-    is_paused: bool
-
-    def __init__(self):
-        super().__init__([Ball()])
-        self.is_paused = False
-
-    def update(self, *args, **kwargs) -> None:
-        """Update gameplay."""
-        super().update(*args, **kwargs)
-
-        if pygame.key.get_pressed()[pygame.K_ESCAPE]:
-            pygame.event.post(pygame.event.Event(GAMEPLAY_PAUSE))
+from .ball import Ball

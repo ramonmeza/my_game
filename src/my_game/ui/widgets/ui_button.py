@@ -186,8 +186,9 @@ class UIButton(pygame.sprite.Sprite):  # pylint: disable=R0902
             ]
         )
 
-    def update(self) -> None:
+    def update(self, delta_time: float) -> None:
         """Updates the state of the UIButton."""
+        _ = delta_time
         is_mouse_pressed: bool = pygame.mouse.get_pressed()[0] is True
 
         # ignore input if not hovered

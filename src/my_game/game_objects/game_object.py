@@ -16,24 +16,32 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
+from typing import Tuple
+
 import pygame
 
-from .events import GAMEPLAY_PAUSE
-from .game_objects import Ball
 
+class GameObject(pygame.sprite.Sprite):
+    """Base class for visible game objects."""
 
-class Gameplay(pygame.sprite.Group):
-    """Contains all gameplay related functionality."""
+    image: pygame.Surface
+    rect: pygame.Rect
 
-    is_paused: bool
+    def __init__(self, sprite: pygame.Surface):
+        super().__init__()
+        self.image = sprite
+        self.rect = self.image.get_rect()
 
-    def __init__(self):
-        super().__init__([Ball()])
-        self.is_paused = False
+    @property
+    def position(self) -> Tuple[int, int]:
+        """Get the GameObject's position."""
+        return (self.rect.x, self.rect.y)
 
-    def update(self, *args, **kwargs) -> None:
-        """Update gameplay."""
-        super().update(*args, **kwargs)
+    @position.setter
+    def position(self, value: Tuple[int, int]) -> None:
+        """Set the GameObject's position.
 
-        if pygame.key.get_pressed()[pygame.K_ESCAPE]:
-            pygame.event.post(pygame.event.Event(GAMEPLAY_PAUSE))
+        Args:
+            value (Tuple[int, int]): New position.
+        """
+        self.rect = pygame.Rect(value, self.rect.size)
