@@ -16,103 +16,114 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-import logging
-import os
-
 import pygame
 
-from .scene_manager import SceneManager, Scene, State
-from .spritesheet import Spritesheet
+from . import __window_caption__
+from .font_manager import FontManager
+from .state_manager import StateManager
+
+from .events import (
+    MAIN_MENU_PLAY,
+    MAIN_MENU_OPTIONS,
+    OPTIONS_MENU_TOGGLE_FULLSCREEN,
+    OPTIONS_MENU_GO_BACK,
+)
+from .ui.menus import MainMenu, OptionsMenu
 
 
 class Game:
+    """Represents the game. Initializes the main window and controls the main
+    game loop.
     """
-    Composes the game using defined objects and manages their states and interactions.
-    """
-    scene_manager: SceneManager
-    screen: pygame.Surface
+
+    is_running: bool
+    clock: pygame.time.Clock
+    window: pygame.Surface
+    font_manager: FontManager
+    state_manager: StateManager
+
+    def init(self) -> None:
+        """Initialize the main systems."""
+        pygame.init()
+        self.is_running = False
+        self.clock = pygame.time.Clock()
+        self.window = pygame.display.set_mode((1280, 720))
+        pygame.display.set_caption(__window_caption__)
+        self.font_manager = FontManager()
+        self.state_manager = StateManager()
+        self.init_game()
+
+    def init_game(self) -> None:
+        """Construct and load the actual game."""
+        # load fonts
+        self.font_manager.add("data/fonts/Rijusans-Regular.ttf")
+
+        # load menus
+        self.state_manager.add("main_menu", MainMenu(font=self.font_manager.get()))
+        self.state_manager.add(
+            "options_menu", OptionsMenu(font=self.font_manager.get())
+        )
 
     def run(self) -> None:
-        """Run the game.
-        """
-        deck: Spritesheet = Spritesheet("data/sprites/playingCardBacks.xml")
-        card = deck.get("cardBack_red3")
-
-        self.screen = pygame.display.set_mode((1280, 720))
-        clock = pygame.time.Clock()
-        delta_time: int = 0
-        running = True
-        while running:
-            for event in pygame.event.get():
-                if event.type == pygame.QUIT:
-                    running = False
-
-            delta_time: float = clock.tick(60) / 1000.0
+        """Run the game."""
+        self.is_running = True
+        while self.is_running:
+            delta_time: float = self.clock.tick()
+            self.handle_events()
             self.update(delta_time)
             self.render()
 
-    def init(self) -> None:
-        """Initialize the game.
-        """
-        logging.info("Starting initialization...")
-        pygame.init()
-        self.display_splash_screen()
-        self.load()
-        logging.info("Initialization complete!")
+    def handle_user_event(self, event: pygame.event.Event) -> None:
+        """Handles custom events. Used to manage game state.
 
-    def display_splash_screen(self) -> None:
-        """Displays the splashscreen for the game.
+        Args:
+            event (pygame.event.Event): The custom event.
         """
-        os.environ['SDL_VIDEO_CENTERED'] = '1'
-        background = pygame.image.load("data/img/splashscreen.png")
-        screen = pygame.display.set_mode(background.get_size(), pygame.NOFRAME)
-        screen.blit(background.convert(), (0,0))
-        pygame.display.update()
+        if event.type == MAIN_MENU_PLAY:
+            print("play")
 
-        # artifical stall for splashscreen display
-        import time  # pylint: disable=import-outside-toplevel
-        time.sleep(1)
+        elif event.type == MAIN_MENU_OPTIONS:
+            print("goto options")
+            self.state_manager.change_state("options_menu")
 
-    def load(self) -> None:
-        """Loads data for the game
-        """
-        self.scene_manager = SceneManager()
-        self.scene_manager.add(Scene(
-            pygame.image.load("data/img/pygame.png"),
-            on_update=intro_slide_update
-        ))
-        self.scene_manager.add(Scene(
-            pygame.image.load("data/img/kenney.png"),
-            on_update=intro_slide_update,
-        ))
+        elif event.type == OPTIONS_MENU_TOGGLE_FULLSCREEN:
+            print("toggle fullscreen")
+            pygame.display.toggle_fullscreen()
+
+        elif event.type == OPTIONS_MENU_GO_BACK:
+            print("go back")
+            self.state_manager.go_back()
+
+    def handle_events(self) -> None:
+        """Handle system and game events."""
+        for event in pygame.event.get():
+            match event.type:
+                case pygame.QUIT:
+                    self.is_running = False
+
+                case _ if event.type >= pygame.USEREVENT:
+                    self.handle_user_event(event)
+
+                case _:
+                    pass
 
     def update(self, delta_time: float) -> None:
-        """Updates the game."""
-        self.scene_manager.update(delta_time)
+        """Update the game.
+
+        Args:
+            delta_time (float): Delta between frames, in milliseconds.
+        """
+        pygame.display.set_caption(
+            f"{__window_caption__} FPS: {self.clock.get_fps():.0f}"
+        )
+        self.state_manager.update(delta_time=delta_time)
 
     def render(self) -> None:
-        """Renders the game."""
-        # green: #35654d
-        self.screen.fill("#000000")
-        self.scene_manager.draw(self.screen)
+        """Render the game."""
+        self.window.fill("#000000")
+        self.state_manager.draw(surface=self.window)
         pygame.display.flip()
 
-    def shutdown(self) -> None:
-        """Safely shutdown the game.
-        """
-        logging.info("Starting shutdown...")
+    def deinit(self) -> None:
+        """Safely close the main systems."""
         pygame.quit()
-        logging.info("Shutdown complete!")
-
-
-def intro_slide_update(scene: Scene, delta_time: float) -> None:
-    if hasattr(scene, "intro_counter"):
-        scene.intro_counter -= delta_time
-        if scene.intro_counter <= 0.0:
-            scene.state = State.FADE_OUT
-            delattr(scene, "intro_counter")
-    else:
-        scene.intro_counter = 3.0
-
-
-Blackjack: Game = Game()

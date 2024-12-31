@@ -1,0 +1,38 @@
+[MASTER]
+# List of directories and files to ignore (absolute or relative paths).
+ignore=.venv
+
+# List of directories whose subdirectories should be ignored (no recursion).
+ignore-patterns=
+
+[MESSAGES CONTROL]
+# Enable or disable specific checks.
+disable=
+    R0903,  # Too few public methods
+
+[REPORTS]
+# Set to "yes" if you want a full report or "no" for just the messages.
+reports=yes
+
+[FORMAT]
+# Maximum number of characters on a single line.
+max-line-length=100
+
+[DESIGN]
+# Maximum number of arguments for a function/method.
+max-args=5
+
+[LOGGING]
+# Logging modules to be used.
+logging-modules=logging
+
+[BASIC]
+# Good variable names that should not be flagged.
+good-names=i,j,k,e,x,y,z,_
+
+[TYPECHECK]
+# List of generated members for dynamic objects
+generated-members=pygame.*
+
+# List of extension packages
+extension-pkg-whitelist=pygame

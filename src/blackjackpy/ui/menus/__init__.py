@@ -16,6 +16,5 @@ You should have received a copy of the GNU General Public License
 along with this program.  If not, see <https://www.gnu.org/licenses/>.
 """
 
-__title__ = "BlackjackPy"
-__version__ = "0.1.0"
-__window_caption__ = f"{__title__} v{__version__}"
+from .main_menu import MainMenu
+from .options_menu import OptionsMenu
