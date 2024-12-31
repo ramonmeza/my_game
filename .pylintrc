@@ -9,6 +9,7 @@ ignore-patterns=
 # Enable or disable specific checks.
 disable=
     R0903,  # Too few public methods
+    R0801,  # Similar lines in multiple files
 
 [REPORTS]
 # Set to "yes" if you want a full report or "no" for just the messages.

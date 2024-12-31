@@ -20,8 +20,8 @@ from enum import StrEnum
 
 
 class GameStates(StrEnum):
-    """Contains ID's used to manage state of the game.
-    """
+    """Contains ID's used to manage state of the game."""
+
     MAIN_MENU: str = "main_menu"
     OPTIONS_MENU: str = "options_menu"
     GAMEPLAY: str = "gameplay"

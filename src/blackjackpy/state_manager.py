@@ -64,6 +64,11 @@ class StateManager:
         self.current_state = next_state_key
 
     def get_state(self) -> GameStates:
+        """Get the current state.
+
+        Returns:
+            GameStates: The current state.
+        """
         return self.current_state
 
     def go_back(self) -> None:

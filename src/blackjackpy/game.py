@@ -29,15 +29,11 @@ from .events import (
     OPTIONS_MENU_GO_BACK,
     OPTIONS_MENU_TOGGLE_FULLSCREEN,
     PAUSE_MENU_RESUME,
-    PAUSE_MENU_GOTO_MAIN_MENU
+    PAUSE_MENU_GOTO_MAIN_MENU,
 )
 from .gameplay import Gameplay
 from .game_states import GameStates
-from .ui.menus import (
-    MainMenu,
-    OptionsMenu,
-    PauseMenu
-)
+from .ui.menus import MainMenu, OptionsMenu, PauseMenu
 
 
 class Game:
@@ -70,12 +66,17 @@ class Game:
         self.font_manager.add("data/fonts/Rijusans-Regular.ttf")
 
         # load menus
-        self.state_manager.add(GameStates.MAIN_MENU, MainMenu(font=self.font_manager.get()))
+        self.state_manager.add(
+            GameStates.MAIN_MENU, MainMenu(font=self.font_manager.get())
+        )
         self.state_manager.add(
             GameStates.OPTIONS_MENU, OptionsMenu(font=self.font_manager.get())
         )
         self.state_manager.add(GameStates.GAMEPLAY, Gameplay())
-        self.state_manager.add(GameStates.PAUSE_MENU, PauseMenu(font=self.font_manager.get()))
+        self.state_manager.add(
+            GameStates.PAUSE_MENU, PauseMenu(font=self.font_manager.get())
+        )
+
     def run(self) -> None:
         """Run the game."""
         self.is_running = True
